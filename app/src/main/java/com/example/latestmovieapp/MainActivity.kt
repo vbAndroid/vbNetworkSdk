@@ -3,11 +3,13 @@ package com.example.latestmovieapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.example.networksdk.MovieDetails
+import com.example.networksdk.MovieResponse
 import com.test.networksdk.NetworkSDK
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,18 +17,52 @@ class MainActivity : AppCompatActivity() {
 
         // here will start our project work
         setContentView(R.layout.activity_main)
-
         val networkSDK = NetworkSDK()
-
         CoroutineScope(Dispatchers.IO).launch {
-            val latestMovies = networkSDK.fetchLatestMovies("909594533c98883408adef5d56143539")
-//            val popularMovies = networkSDK.fetchPopularMovies("909594533c98883408adef5d56143539")
+            val popularMovies = networkSDK.getPopularMovies()
+            popularMovies.enqueue(object : Callback<MovieResponse> {
+                override fun onResponse(call: Call<MovieResponse>, response: Response<MovieResponse>) {
+                    if (response.isSuccessful) {
+                        val movieResponse = response.body()
+                        movieResponse?.let {
+                            val movies = it.movies
+                            for (movie in movies) {
+                                Log.d("latestMovies", "Title: ${movie.title}, Release Date: ${movie.releaseDate}")
+                            }
+                        }
+                    } else {
+                        Log.e("API", "Failed to fetch popular movies: ${response.code()}")
+                    }
 
-            withContext(Dispatchers.Main) {
-                Log.e("latestMovies response:","$latestMovies")
-                // Update UI with latest and popular movies
-                // For example, set text to TextViews
-            }
+
+                }
+
+                override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
+                    Log.e("API", "Failed to fetch popular movies", t)
+                }
+            })
+        }
+        CoroutineScope(Dispatchers.IO).launch{
+            val moviesData = networkSDK.getMovieDetails(1290833)
+                    moviesData.enqueue(object : Callback<MovieDetails>{
+                        override fun onResponse(
+                            call: Call<MovieDetails>,
+                            response: Response<MovieDetails>
+                        ) {
+                            if (response.isSuccessful) {
+                                val movieResponse = response.body()
+                                movieResponse?.let {
+                                    val movies = it.title
+                                    Log.d("latestMoviesDetails", "Title: ${movies}")
+                                }
+                            }
+                        }
+                        override fun onFailure(call: Call<MovieDetails>, t: Throwable) {
+                            TODO("Not yet implemented")
+                        }
+                    }
+
+                    )
 
         }
     }
