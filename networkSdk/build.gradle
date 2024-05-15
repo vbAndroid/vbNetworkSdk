@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'maven-publish'
 }
 
 android {
@@ -43,4 +44,19 @@ dependencies {
     def retrofitVersion = '2.9.0'
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+}
+
+afterEvaluate {
+        publishing{
+
+            publications{
+                release(MavenPublication){
+                    from components.release
+
+                    groupId='com.github.networkSdk'
+                    artifactId='movie-data'
+                    version='1.0'
+                }
+            }
+    }
 }
