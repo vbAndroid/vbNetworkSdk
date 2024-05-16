@@ -23,7 +23,14 @@ class NetworkSDK {
         return "HI VIJAY How are you?"
     }
 
-
+    suspend fun fetchPopularMovies(): MovieResponse {
+        return try {
+            apiService.getPopularMovies1()
+        } catch (e: Exception) {
+            // Handle exception or rethrow
+            throw e
+        }
+    }
     @Throws(IOException::class)
     suspend fun getPopularMovies(): Call<MovieResponse> {
         return apiService.getPopularMovies()
