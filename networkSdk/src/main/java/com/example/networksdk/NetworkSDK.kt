@@ -1,5 +1,6 @@
 package com.test.networksdk
 
+import com.example.networksdk.Movie
 import com.example.networksdk.MovieDetails
 import com.example.networksdk.MovieResponse
 import retrofit2.Call
@@ -23,7 +24,7 @@ class NetworkSDK {
         return "HI VIJAY How are you?"
     }
 
-    suspend fun fetchPopularMovies(): MovieResponse {
+    suspend fun fetchPopularMovies(): Movie {
         return try {
             apiService.getPopularMovies1()
         } catch (e: Exception) {
