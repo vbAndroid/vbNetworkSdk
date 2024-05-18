@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         val networkSDK = NetworkSDK()
         CoroutineScope(Dispatchers.IO).launch{
             try {
-                val moviesResponse = networkSDK.getLatestMovie()
+                val moviesResponse = networkSDK.fetchPopularMovies()
                 Log.e("MovieResponse","getUpcomingMovies res:${ moviesResponse}")
             } catch (e: Exception) {
                 Log.e("API", "Failed to fetch popular movies", e)
