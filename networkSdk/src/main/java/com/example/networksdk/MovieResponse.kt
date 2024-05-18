@@ -52,12 +52,6 @@ data class MovieDetails(
     val vote_average: Double,
     val vote_count: Int
 )
-
-
-
-
-
-
 data class UpcomingMovieResponse(
     val dates: UpcomingDates,
     val page: Int,

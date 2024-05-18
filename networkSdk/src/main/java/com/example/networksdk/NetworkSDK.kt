@@ -21,8 +21,13 @@ class NetworkSDK {
     private val apiService = retrofit.create(ApiService::class.java)
 
     @Throws(IOException::class)
-    suspend fun fetchLatestMovies(): MovieResponse {
-        return apiService.getLatestMovies()
+    fun getLatestMovie() :MovieDetails{
+        val response = apiService.getLatestMovies().execute()
+        if (response.isSuccessful) {
+            return response.body() ?: throw IOException("Empty response body")
+        } else {
+            throw IOException("Unsuccessful response: ${response.code()} ${response.message()}")
+        }
     }
 
     suspend fun fetchPopularMovies(): MovieResponse {

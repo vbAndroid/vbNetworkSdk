@@ -18,8 +18,8 @@ interface ApiService {
     suspend fun getPopularMovies1(): MovieResponse
 
     @Headers("Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTgyOTc4ZDU4MGQ2MzJlMzJjZWE0OTc0ODY3ODRmMCIsInN1YiI6IjY2NDRhOWZmMDQ3NTM1OGZmOTViY2RlOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3ME1lJYZv56CjsfNNtDRXHKbdzeQmNRgFqfSRoTeIdU")
-    @GET("movie/popular?language=en-US&page=1")
-    fun getLatestMovies(): MovieResponse
+    @GET("movie/latest")
+    fun getLatestMovies():Call<MovieDetails>
 
     @Headers("Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5NTgyOTc4ZDU4MGQ2MzJlMzJjZWE0OTc0ODY3ODRmMCIsInN1YiI6IjY2NDRhOWZmMDQ3NTM1OGZmOTViY2RlOCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.3ME1lJYZv56CjsfNNtDRXHKbdzeQmNRgFqfSRoTeIdU")
     @GET("movie/{movie_id}")
